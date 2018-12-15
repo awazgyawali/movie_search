@@ -8,7 +8,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http:
+  flutter_rating:
   cupertino_icons: ^0.1.2
+  async_loader:
 
 dev_dependencies:
   flutter_test:
