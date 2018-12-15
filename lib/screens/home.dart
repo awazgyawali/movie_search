@@ -1,119 +1,91 @@
 import 'package:flutter/material.dart';
-import '../widgets/page_transformer.dart';
-
-import '../widgets/horizontal_movie_list.dart';
-import '../widgets/horizontal_person_list.dart';
-import '../widgets/horizontal_genre_list.dart';
-import '../helpers/api.dart';
+import './movies.dart';
+import './tv_shows.dart';
+import './artists.dart';
+import './genres.dart';
 
 class HomeScreen extends StatefulWidget {
-  _HomeScreenState createState() => _HomeScreenState();
+  @override
+  HomeScreenState createState() {
+    return HomeScreenState();
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  var trendings = [];
-  void initState() {
-    super.initState();
-    APIHelper().getNowPlayingMovies().then((data) {
-      setState(() {
-        trendings = data["results"];
-      });
-    });
-  }
+class HomeScreenState extends State<HomeScreen> {
+  int selectedIndex = 0;
+  var name = ["Movies", "TV Shows"];
+  var _pageController = PageController();
+
+  double miliseconds(int index) => ((index - _pageController.page) * 200).abs();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              HomeToolbar(),
-              Container(
-                height: 450,
-                child: MoviePageView(trendings: trendings),
-              ),
-              HorizontalMovieList(
-                title: "Upcoming Movies",
-                dataSource: APIHelper().getUpcomingMovies,
-              ),
-              HorizontalMovieList(
-                title: "Trending Movies",
-                dataSource: APIHelper().getTrendingMovies,
-              ),
-              HorizontalMovieList(
-                title: "Top Rated Movies",
-                dataSource: APIHelper().getTopRatedMovies,
-              ),
-              HorizontalPersonList(
-                title: "Popular Artists",
-                dataSource: APIHelper().getPopularArtists,
-              ),
-              HorizontalGenreList(
-                title: "Movie Geners",
-                dataSource: APIHelper().getMovieGenres,
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+          _pageController.animateToPage(
+            index,
+            duration: Duration(
+              milliseconds: 300,
+            ),
+            curve: Curves.easeIn,
+          );
+        },
+        fixedColor: Colors.amber,
+        currentIndex: selectedIndex,
+        items: [
+          BottomNavigationBarItem(
+            backgroundColor: Theme.of(context).accentColor,
+            icon: Icon(Icons.movie),
+            title: Text("Movies"),
           ),
+          BottomNavigationBarItem(
+            backgroundColor: Theme.of(context).accentColor,
+            icon: Icon(Icons.live_tv),
+            title: Text("TV Shows"),
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Theme.of(context).accentColor,
+            icon: Icon(Icons.supervisor_account),
+            title: Text("Artists"),
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Theme.of(context).accentColor,
+            icon: Icon(Icons.list),
+            title: Text("Genres"),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            Movies(),
+            TVShows(),
+            Artists(),
+            Genres(),
+          ],
         ),
       ),
-    );
-  }
-}
-
-class MoviePageView extends StatelessWidget {
-  const MoviePageView({
-    Key key,
-    @required this.trendings,
-  }) : super(key: key);
-
-  final List trendings;
-
-  @override
-  Widget build(BuildContext context) {
-    return PageTransformer(
-      pageViewBuilder: (context, pageVResolver) {
-        return PageView.builder(
-          controller: PageController(viewportFraction: 0.80),
-          itemBuilder: (context, index) {
-            var movie = trendings[index];
-            final pageVisibility = pageVResolver.resolvePageVisibility(index);
-
-            // Use these two properties to transform your "Hello World" text widget!
-            // In this example, the text widget fades in and out of view, since we use
-            // the visibleFraction property, which can be between 0.0 - 1.0.
-            final position = pageVisibility.pagePosition;
-            final visibleFraction = pageVisibility.visibleFraction;
-            return Card(
-              margin: EdgeInsets.only(right: 25),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      APIHelper().getPosterUrl(movie["poster_path"]),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-          itemCount: trendings.length,
-        );
-      },
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: selectedIndex < 2
+          ? FloatingActionButton.extended(
+              icon: Icon(Icons.search),
+              label: Text("Search ${name[selectedIndex]}"),
+              onPressed: () {
+                Navigator.of(context).pushNamed("/search");
+              },
+            )
+          : null,
     );
   }
 }
 
 class HomeToolbar extends StatelessWidget {
-  const HomeToolbar({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -132,22 +104,29 @@ class HomeToolbar extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 5),
-                Text("Welcome home, Aawaz")
+                Text("Welcome home")
               ],
             ),
           ),
-          InkResponse(
-            highlightShape: BoxShape.circle,
-            onTap: () {
-              Navigator.pushNamed(context, "/search");
+          IconButton(
+            icon: Icon(Icons.account_circle),
+            iconSize: 50,
+            onPressed: () {
+              Navigator.pushNamed(context, "/signin");
             },
-            child: CircleAvatar(
-              radius: 25,
-              backgroundImage: NetworkImage(
-                "https://avatars1.githubusercontent.com/u/10810343?s=460&v=4",
-              ),
-            ),
-          )
+          ),
+          // InkResponse(
+          //   highlightShape: BoxShape.circle,
+          //   onTap: () {
+          //     Navigator.pushNamed(context, "/myprofile");
+          //   },
+          //   child: CircleAvatar(
+          //     radius: 25,
+          //     backgroundImage: NetworkImage(
+          //       "https://avatars1.githubusercontent.com/u/10810343?s=460&v=4",
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

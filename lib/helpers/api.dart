@@ -2,48 +2,96 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class APIHelper {
-  Future getTrendingMovies() async {
-    return getRequest("/trending/movie/week");
+  Future getTrendingMovies({page}) async {
+    return getRequest("/trending/movie/week", page);
   }
 
-  Future getLatestMovie() async {
-    return getRequest("/movie/latest");
+  Future getTrendingTVShows({page}) async {
+    return getRequest("/trending/tv/week", page);
   }
 
-  Future getNowPlayingMovies() async {
-    return getRequest("/movie/now_playing");
+  Future getTrendingArtist({page}) async {
+    return getRequest("/trending/person/week", page);
   }
 
-  Future getUpcomingMovies() async {
-    return getRequest("/movie/upcoming");
+  Future getLatestMovie({page}) async {
+    return getRequest("/movie/latest", page);
   }
 
-  Future getTopRatedMovies() async {
-    return getRequest("/movie/top_rated");
+  Future getNowPlayingMovies({page}) async {
+    return getRequest("/movie/now_playing", page);
   }
 
-  Future getPopularMovies() async {
-    return getRequest("/movie/popular");
+  Future getUpcomingMovies({page}) async {
+    return getRequest("/movie/upcoming", page);
   }
 
-  Future getPopularArtists() async {
-    return getRequest("/person/popular");
+  Future getTopRatedMovies({page}) async {
+    return getRequest("/movie/top_rated", page);
   }
 
-  Future getSimilarMovies(movieId) {
-    return getRequest("/movie/$movieId/similar");
+  Future getTopRatedTVShows({page}) async {
+    return getRequest("/tv/top_rated", page);
   }
 
-  Future getRecommendedMovies(movieId) {
-    return getRequest("/movie/$movieId/recommendations");
+  Future getPopularMovies({page = 1}) async {
+    return getRequest("/movie/popular", page);
   }
 
-  Future getMovieGenres() {
-    return getRequest("/genre/movie/list");
+  Future getPopularTVShows({page = 1}) async {
+    return getRequest("/tv/popular", page);
+  }
+
+  Future getOnTheAirTVShows({page}) async {
+    return getRequest("/tv/on_the_air", page);
+  }
+
+  Future getAiringTodayTVShows({page}) async {
+    return getRequest("/tv/airing_today", page);
+  }
+
+  Future getPopularArtists({page}) async {
+    return getRequest("/person/popular", page);
+  }
+
+  Future getSimilarMovies(movieId, {page}) {
+    return getRequest("/movie/$movieId/similar", page);
+  }
+
+  Future getSimilarTVShows(tvId, {page}) {
+    return getRequest("/tv/$tvId/similar", page);
+  }
+
+  Future getRecommendedMovies(movieId, {page}) {
+    return getRequest("/movie/$movieId/recommendations", page);
+  }
+
+  Future getRecommendedTVShows(tvId, {page}) {
+    return getRequest("/tv/$tvId/recommendations", page);
+  }
+
+  Future getMovieGenres({page}) {
+    return getRequest("/genre/movie/list", page);
+  }
+
+  Future getTVShowGenres({page}) {
+    return getRequest("/genre/tv/list", page);
   }
 
   Future getMovieDetail(movieId) {
-    return getRequest("/movie/$movieId");
+    return getRequest("/movie/$movieId", 0);
+  }
+
+  Future getTVShowDetail(tvId) {
+    return getRequest("/tv/$tvId", 0);
+  }
+
+  Future getMovieReviews(movieId, {page}) {
+    return getRequest("/movie/$movieId/reviews", page);
+  }
+
+  Future getTVShowReviews(tvId, {page}) {
+    return getRequest("/tv/$tvId/reviews", page);
   }
 
   postRequest(endpoint, body) async {
@@ -55,10 +103,12 @@ class APIHelper {
     return json.decode(response);
   }
 
-  getRequest(endpoint) async {
+  getRequest(endpoint, page) async {
     var body = (await http.get(
-            "https://api.themoviedb.org/3$endpoint?api_key=f6b8b5c5073c401a78e4a6f1e65dcf60"))
+            "https://api.themoviedb.org/3$endpoint?api_key=f6b8b5c5073c401a78e4a6f1e65dcf60&page=${page ?? 1}"))
         .body;
+    print(
+        "https://api.themoviedb.org/3$endpoint?api_key=f6b8b5c5073c401a78e4a6f1e65dcf60");
     return json.decode(body);
   }
 

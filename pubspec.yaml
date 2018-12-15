@@ -12,6 +12,9 @@ dependencies:
   flutter_rating:
   cupertino_icons: ^0.1.2
   async_loader:
+  flutter_youtube:
+  cached_network_image:
+  material_design_icons_flutter:
 
 dev_dependencies:
   flutter_test:

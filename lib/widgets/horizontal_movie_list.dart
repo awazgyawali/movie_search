@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:async_loader/async_loader.dart';
+import '../screens/view_all_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../helpers/api.dart';
 
@@ -27,7 +29,11 @@ class HorizontalMovieList extends StatelessWidget {
               FlatButton(
                 child: Text("View All"),
                 textColor: Theme.of(context).accentColor,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ViewAllScreen(title: title, dataSource: dataSource);
+                  }));
+                },
               )
             ],
           ),
@@ -71,7 +77,7 @@ class MovieGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 110,
-      margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -87,7 +93,7 @@ class MovieGridItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
+                  image: CachedNetworkImageProvider(
                     APIHelper().getPosterUrl(movie["poster_path"]),
                   ),
                 ),
@@ -96,7 +102,7 @@ class MovieGridItem extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            movie["original_title"],
+            movie["original_title"] ?? movie["name"],
             maxLines: 2,
             overflow: TextOverflow.fade,
             style: TextStyle(

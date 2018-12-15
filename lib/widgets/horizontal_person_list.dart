@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:async_loader/async_loader.dart';
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../helpers/api.dart';
+import '../screens/view_all_screen.dart';
 
 class HorizontalPersonList extends StatelessWidget {
   final title, dataSource;
@@ -27,7 +29,12 @@ class HorizontalPersonList extends StatelessWidget {
               FlatButton(
                 child: Text("View All"),
                 textColor: Theme.of(context).accentColor,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ViewAllScreen(
+                        title: title, dataSource: dataSource, artist: true);
+                  }));
+                },
               )
             ],
           ),
@@ -83,7 +90,7 @@ class PersonGridItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   APIHelper().getPosterUrl(person["profile_path"]),
                 ),
               ),

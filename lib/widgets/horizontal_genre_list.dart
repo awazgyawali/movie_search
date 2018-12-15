@@ -69,24 +69,21 @@ class GenreGridItem extends StatelessWidget {
   GenreGridItem(this.genre);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
-            decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Text(
-              genre["name"],
-              overflow: TextOverflow.fade,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-            ),
-          ),
-        ],
+    return InkWell(
+      onTap: (){
+        
+      },
+      child: Container(
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        decoration: BoxDecoration(
+          color: Theme.of(context).accentColor,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Text(
+          genre["name"],
+          overflow: TextOverflow.fade,
+          style: TextStyle(fontSize: 16),
+        ),
       ),
     );
   }

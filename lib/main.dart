@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './screens/home.dart';
 import './screens/movie_detail.dart';
 import './screens/search.dart';
+import './screens/sign_in.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
       home: HomeScreen(),
       routes: {
         "/search": (context) => SearchScreen(),
+        "/signin": (context) => SignInScreen(),
+        "/home": (context) => HomeScreen(),
       },
       onGenerateRoute: (settings) {
         var splits = settings.name.split("/");
