@@ -6,18 +6,20 @@ class Artists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          HorizontalPersonList(
-            title: "Trending Artists",
-            dataSource: APIHelper().getTrendingArtist,
-          ),
-          HorizontalPersonList(
-            title: "Popular Artists",
-            dataSource: APIHelper().getPopularArtists,
-          ),
-          SizedBox(height: 60),
-        ],
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            HorizontalPersonList(
+              title: "Trending Artists",
+              dataSource: APIHelper().getTrendingArtist,
+            ),
+            HorizontalPersonList(
+              title: "Popular Artists",
+              dataSource: APIHelper().getPopularArtists,
+            ),
+            SizedBox(height: 60),
+          ],
+        ),
       ),
     );
   }

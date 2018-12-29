@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "332958194819",
+    "firebase_url": "https://movie-search-e6f1c.firebaseio.com",
+    "project_id": "movie-search-e6f1c",
+    "storage_bucket": "movie-search-e6f1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332958194819:android:450e2ad34536be0c",
+        "android_client_info": {
+          "package_name": "com.brainants.moviesearch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332958194819-5eo8gheu84qtac1il9us65iq0mrk6kf7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_u3_PiEKy7QEBUXcRtxqFmrSwyzI5BC0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,30 +7,32 @@ class TVShows extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          TVShowsToolbar(),
-          MoviePageView(
-            dataSource: APIHelper().getOnTheAirTVShows,
-          ),
-          HorizontalMovieList(
-            title: "Airing Today",
-            dataSource: APIHelper().getAiringTodayTVShows,
-          ),
-          HorizontalMovieList(
-            title: "Popular Shows",
-            dataSource: APIHelper().getPopularTVShows,
-          ),
-          HorizontalMovieList(
-            title: "Trending Shows",
-            dataSource: APIHelper().getTrendingTVShows,
-          ),
-          HorizontalMovieList(
-            title: "Top Rated Shows",
-            dataSource: APIHelper().getTopRatedTVShows,
-          ),
-          SizedBox(height: 60),
-        ],
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            TVShowsToolbar(),
+            MoviePageView(
+              dataSource: APIHelper().getOnTheAirTVShows,
+            ),
+            HorizontalMovieList(
+              title: "Airing Today",
+              dataSource: APIHelper().getAiringTodayTVShows,
+            ),
+            HorizontalMovieList(
+              title: "Popular Shows",
+              dataSource: APIHelper().getPopularTVShows,
+            ),
+            HorizontalMovieList(
+              title: "Trending Shows",
+              dataSource: APIHelper().getTrendingTVShows,
+            ),
+            HorizontalMovieList(
+              title: "Top Rated Shows",
+              dataSource: APIHelper().getTopRatedTVShows,
+            ),
+            SizedBox(height: 60),
+          ],
+        ),
       ),
     );
   }

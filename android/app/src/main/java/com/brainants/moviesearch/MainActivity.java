@@ -1,4 +1,4 @@
-package com.example.moviesearch;
+package com.brainants.moviesearch;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

@@ -38,38 +38,43 @@ class HomeScreenState extends State<HomeScreen> {
         currentIndex: selectedIndex,
         items: [
           BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(Icons.movie),
             title: Text("Movies"),
           ),
           BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(Icons.live_tv),
             title: Text("TV Shows"),
           ),
           BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(Icons.supervisor_account),
             title: Text("Artists"),
           ),
           BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(Icons.list),
             title: Text("Genres"),
           ),
         ],
       ),
-      body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            Movies(),
-            TVShows(),
-            Artists(),
-            Genres(),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                Movies(),
+                TVShows(),
+                Artists(),
+                Genres(),
+              ],
+            ),
+          ),
+          Divider(height: 0, color:Theme.of(context).accentColor)
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: selectedIndex < 2
